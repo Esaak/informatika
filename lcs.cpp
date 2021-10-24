@@ -6,7 +6,7 @@ struct vivod{
 int i;
 int j;
 };
-int printLCS(char *a, vivod *answ,int i, int j){
+int printLCS(char *a, vivod **answ,int i, int j){
     if(i==0 || j==0){
         return 0;
     }
@@ -20,11 +20,10 @@ int printLCS(char *a, vivod *answ,int i, int j){
         else{
             printLCS(a, answ, i,j-1);
         }
-
-
+        return 0;
 }
 int main(){
-int i=0;
+int B=0;
 char a[MAXX]={}, p='a';
 char b[MAXX]={};
 int lcs[MAXX][MAXX]={};
@@ -35,41 +34,41 @@ for(int i=0; i<MAXX; i++){
     }
 while (p!='\n'){
     cin.get(p);
-    a[i]=p;
-    i++;
+    a[B]=p;
+    B++;
 }
-i--;
-a[i]='\0';
-int j=0;
+
+a[B-1]='\0';
+int A=0;
 p='a';
 while (p!='\n'){
     cin.get(p);
-    b[j]=p;
-    j++;
+    b[A]=p;
+    A++;
 }
-j--;
-b[j]='\0';
-for(int i1=0; i1<i+1; i1++){
-    for(int j1=0; j1<j+1; j1++){
-    if (b[i]==a[j]){
-        lsc[i1][j1]=lsc[i1-1][j1-1]+1;
-        answ[i1][j1].i=i1-1;
-        answ[i1][j1].j=j1-1;
-    }
-    else {
-        if(lsc[i1][j1-1]>lsc[i1-1][j1])
-            lsc[i1][j1]=lsc[i1][j1-1];
-            answ[i1][j1].i=i1;
-            answ[i1][j1].j=j1-1;
-        else{
-            lsc[i1][j1]=lsc[i1-1][j1];
+b[A-1]='\0';
+for(int i1=0; i1<B-1; i1++){
+    for(int j1=0; j1<A-1; j1++){
+        if (b[i1]==a[j1]){
+            lcs[i1][j1]=lcs[i1-1][j1-1]+1;
             answ[i1][j1].i=i1-1;
-            answ[i1][j1].j=j1;
+            answ[i1][j1].j=j1-1;
+        }
+        else {
+            if(lcs[i1][j1-1]>lcs[i1-1][j1]){
+                lcs[i1][j1]=lcs[i1][j1-1];
+                answ[i1][j1].i=i1;
+                answ[i1][j1].j=j1-1;
+            }
+            else{
+                lcs[i1][j1]=lcs[i1-1][j1];
+                answ[i1][j1].i=i1-1;
+                answ[i1][j1].j=j1;
             }
         }
     }
 }
-printLCS(a,answ, i,j);
+printLCS(a,answ, B-2,A-2);
 
 
 return 0;
